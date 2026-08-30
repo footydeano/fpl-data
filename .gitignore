@@ -4,3 +4,7 @@ __pycache__/
 _setup.ps1
 _setup.log
 _push.log
+
+_p.log
+_fix.ps1
+_fix.log
