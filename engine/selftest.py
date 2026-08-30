@@ -1,13 +1,15 @@
+#!/usr/bin/env python3
 """End-to-end smoke test on synthetic data (no network needed)."""
 import csv
 import os
+import sys
+import tempfile
 
-ROOT = os.environ.get("FPL_ROOT") or os.path.dirname(
-    os.path.dirname(os.path.abspath(__file__))), os, tempfile, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 tmp = tempfile.mkdtemp()
 os.environ["FPL_ROOT"] = tmp
-cur = os.path.join(tmp, "data", "current"); os.makedirs(cur)
+cur = os.path.join(tmp, "data", "current")
+os.makedirs(cur)
 
 fx = [("1","2026-08-21T19:00:00Z","ARS","COV",2,5),("1","2026-08-22T14:00:00Z","MCI","BOU",2,4),
       ("2","2026-08-28T19:00:00Z","CRY","MCI",4,3),("2","2026-08-29T14:00:00Z","MUN","IPS",2,4),

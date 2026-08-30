@@ -25,6 +25,19 @@ def load(name):
         return list(csv.DictReader(fh))
 
 
+def matches_finished_by_club():
+    """How many league matches each club has actually completed. Using the
+    gameweek number instead is wrong mid-gameweek and silently drags every
+    start probability toward 0.5."""
+    n = {}
+    for f in load("fixtures.csv"):
+        if str(f.get("finished", "")).strip().lower() not in ("true", "1"):
+            continue
+        for c in (f["home"], f["away"]):
+            n[c] = n.get(c, 0) + 1
+    return n
+
+
 def run(gw, aggression=0.35):
     players = load("players.csv")
     ctx = {(int(r["gw"]), r["club"]): r for r in context.build()}
@@ -32,6 +45,7 @@ def run(gw, aggression=0.35):
     for p in players:
         by_club.setdefault(p["team_short"], []).append(p)
 
+    finished = matches_finished_by_club()
     mine = [p for p in players if p["web_name"] in SQUAD]
     missing = set(SQUAD) - {p["web_name"] for p in mine}
     if missing:
@@ -43,7 +57,8 @@ def run(gw, aggression=0.35):
         if not c:
             continue                      # blank gameweek for this club
         load_i = float(c["congestion"])
-        m = minutes.project(p, by_club[p["team_short"]], load_i, matches_played=max(1, gw - 1))
+        played = finished.get(p["team_short"], max(0, gw - 1))
+        m = minutes.project(p, by_club[p["team_short"]], load_i, matches_played=played)
         proj = xp.expected_points(p, m, {
             "xg_for": 1.5, "xga": 1.2 + (int(c["fdr"]) - 3) * 0.12,
             "fdr": int(c["fdr"]), "is_home": c["side"] == "H"})

@@ -60,16 +60,30 @@ def importance(player, squad):
     return max(0.0, min(1.0, 0.5 * min(share * len(peers) / 2.0, 1.0) + 0.5 * rel))
 
 
+# Early-season shrinkage. Two pseudo-matches at a 0.60 prior stop a single
+# observation swinging the estimate to 0 or 1 - with three league games played,
+# raw rates are almost pure noise. Converges to the observed rate as data grows.
+PRIOR_START_RATE = 0.60
+PRIOR_WEIGHT = 2.0
+
+
 def base_start_rate(player, matches_played):
-    """Starts per team match. Falls back to a minutes-based estimate when
-    the starts field is thin (early season, new signings)."""
+    """Starts per team match, shrunk toward a prior while the sample is thin.
+
+    matches_played MUST be the number of matches the club has actually
+    finished, not the gameweek number. Passing gw-1 during a part-played
+    gameweek makes every nailed starter look like a rotation risk.
+    """
+    if matches_played <= 0:
+        return PRIOR_START_RATE
     starts = f(player["starts"])
-    if matches_played > 0 and starts > 0:
-        return max(0.0, min(1.0, starts / matches_played))
-    mins = f(player["minutes"])
-    if matches_played > 0:
-        return max(0.0, min(1.0, mins / (matches_played * 90.0)))
-    return 0.5
+    if starts <= 0:
+        # New signing or no starts field yet: infer from minutes.
+        mins = f(player["minutes"])
+        starts = min(matches_played, mins / 90.0)
+    a = starts + PRIOR_WEIGHT * PRIOR_START_RATE
+    b = matches_played + PRIOR_WEIGHT
+    return max(0.0, min(1.0, a / b))
 
 
 def p_start(player, squad, congestion, matches_played, rotation=None,
