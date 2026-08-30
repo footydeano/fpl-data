@@ -2,3 +2,7 @@
 2026-08-30 01:16:53Z    raw snapshot -> C:\Claude_LOCAL\FPL\gh-repo\data\raw\2026-08-30_0116Z
 2026-08-30 01:16:53Z    players=623 fixtures=380 price_changes=10 refGW=3 deadline=2026-09-04T17:30:00Z
 2026-08-30 01:16:53Z    done in 2.8s
+2026-08-30 02:06:19Z  === FPL pull 2026-08-30_0206Z ===
+2026-08-30 02:06:20Z    raw snapshot -> /home/runner/work/fpl-data/fpl-data/data/raw/2026-08-30_0206Z
+2026-08-30 02:06:20Z    players=623 fixtures=380 price_changes=0 refGW=3 deadline=2026-09-04T17:30:00Z
+2026-08-30 02:06:20Z    done in 0.5s
