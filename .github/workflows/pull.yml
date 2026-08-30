@@ -1,0 +1,45 @@
+name: FPL data pull
+
+on:
+  schedule:
+    # Every 4 hours. 02:05 UTC lands just after the 01:30 UTC price-change lock.
+    - cron: "5 2,6,10,14,18,22 * * *"
+  workflow_dispatch:        # lets you run it by hand from the Actions tab
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fpl-pull
+  cancel-in-progress: false
+
+jobs:
+  pull:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Pull FPL data
+        env:
+          FPL_ROOT: ${{ github.workspace }}
+        run: python fpl_pull.py --summary
+
+      - name: Prune raw snapshots older than 30 days
+        run: |
+          find data/raw -mindepth 1 -maxdepth 1 -type d -mtime +30 -exec rm -rf {} + 2>/dev/null || true
+
+      - name: Commit if anything changed
+        run: |
+          git config user.name  "fpl-bot"
+          git config user.email "fpl-bot@users.noreply.github.com"
+          git add -A data
+          if git diff --staged --quiet; then
+            echo "no change"
+          else
+            git commit -m "data: FPL pull $(date -u +'%Y-%m-%d %H:%MZ')"
+            git push
+          fi

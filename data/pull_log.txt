@@ -1,0 +1,4 @@
+2026-08-30 01:16:50Z  === FPL pull 2026-08-30_0116Z ===
+2026-08-30 01:16:53Z    raw snapshot -> C:\Claude_LOCAL\FPL\gh-repo\data\raw\2026-08-30_0116Z
+2026-08-30 01:16:53Z    players=623 fixtures=380 price_changes=10 refGW=3 deadline=2026-09-04T17:30:00Z
+2026-08-30 01:16:53Z    done in 2.8s
