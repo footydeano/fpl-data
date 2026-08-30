@@ -24,7 +24,7 @@ sandbox, but `raw.githubusercontent.com` is, so this repo is the bridge.
 
 Raw URLs follow this pattern — substitute your own owner and repo:
 
-    https://raw.githubusercontent.com/<owner>/fpl-data/master/data/current/players.csv
+    https://raw.githubusercontent.com/footydeano/fpl-data/main/data/current/players.csv
 
 For a private repo, raw URLs need a token. If you would rather keep the reads
 simple, make the repo public — it contains only public Premier League data and
