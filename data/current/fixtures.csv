@@ -18,7 +18,7 @@ id,gw,kickoff_utc,home,away,home_fdr,away_fdr,finished,home_score,away_score
 17,2,2026-08-30T13:00:00Z,LEE,BRE,3,3,False,1,1
 19,2,2026-08-30T13:00:00Z,SUN,FUL,2,3,False,1,0
 18,2,2026-08-30T15:30:00Z,MUN,IPS,2,4,False,5,2
-20,2,2026-08-31T19:00:00Z,AVL,ARS,4,4,False,,
+20,2,2026-08-31T19:00:00Z,AVL,ARS,4,4,False,0,1
 21,3,2026-09-04T19:00:00Z,IPS,LIV,4,2,False,,
 27,3,2026-09-05T11:30:00Z,NEW,BOU,3,3,False,,
 22,3,2026-09-05T14:00:00Z,BRE,SUN,2,3,False,,
