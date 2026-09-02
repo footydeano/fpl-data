@@ -15,7 +15,7 @@ SQUAD = [
     ("Verbruggen", "BHA"), ("Kinsky", "TOT"), ("Calafiori", "ARS"),
     ("Mosquera", "ARS"), ("Shaw", "MUN"), ("Aina", "NFO"), ("Hume", "SUN"),
     ("Fernandes", "MUN"), ("Mbeumo", "MUN"), ("Szoboszlai", "LIV"),
-    ("Ndiaye", "EVE"), ("Hughes", "CRY"), ("Haaland", "MCI"),
+    ("Ndiaye", "EVE"), ("Yates", "NFO"), ("Haaland", "MCI"),
     ("Pedro", "CHE"), ("Calvert-Lewin", "LEE"),
 ]
 
