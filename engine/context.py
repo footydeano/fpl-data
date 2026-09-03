@@ -30,28 +30,30 @@ COORDS = {
     "TOT": (51.604, -0.066), "SUN": (54.914, -1.388),
 }
 
-# European involvement 2026/27. Fill OPPONENTS from the league-phase draw;
-# until then travel falls back to a competition-level prior (see travel_km).
+# ---------------------------------------------------------------------------
+# European fixtures: REAL draw data (draws made 27-28 Aug 2026), loaded from
+# data/euro_fixtures.csv. Replaces the previous competition-median travel guess.
+# ---------------------------------------------------------------------------
 EURO_CLUBS = {
     "ARS": "CL", "MCI": "CL", "MUN": "CL", "AVL": "CL", "LIV": "CL",
     "BOU": "EL", "SUN": "EL", "CRY": "EL", "BHA": "UECL",
 }
-EURO_MATCHES = {  # competition -> [(date, is_home_unknown)] ; dates from UEFA
-    "CL":   ["2026-09-10", "2026-10-14", "2026-10-21", "2026-11-04", "2026-11-25",
-             "2026-12-09", "2027-01-20", "2027-01-27", "2027-02-17", "2027-02-24",
-             "2027-03-10", "2027-03-17", "2027-04-07", "2027-04-14", "2027-04-28",
-             "2027-05-05"],
-    "EL":   ["2026-09-17", "2026-10-15", "2026-10-22", "2026-11-05", "2026-11-26",
-             "2026-12-10", "2027-01-21", "2027-01-28", "2027-02-18", "2027-02-25",
-             "2027-03-11", "2027-03-18", "2027-04-08", "2027-04-15", "2027-04-29",
-             "2027-05-06"],
-    "UECL": ["2026-10-15", "2026-10-22", "2026-11-05", "2026-11-26", "2026-12-10",
-             "2026-12-17", "2027-02-18", "2027-02-25", "2027-03-11", "2027-03-18",
-             "2027-04-08", "2027-04-15", "2027-04-29", "2027-05-06"],
-}
-# Median one-way travel for an away leg, by competition. Conservative stand-in
-# until the draw is known; replace with real opponent geography when it is.
-TRAVEL_PRIOR_KM = {"CL": 1150, "EL": 1400, "UECL": 1600}
+
+
+def load_euro_fixtures(path=None):
+    """club -> [(date, comp, is_home, opponent, lat, lon)] from the real draw."""
+    path = path or os.path.join(ROOT, "data", "euro_fixtures.csv")
+    out = {}
+    if not os.path.exists(path):
+        return out
+    with open(path, encoding="utf-8", newline="") as fh:
+        for r in csv.DictReader(fh):
+            out.setdefault(r["club"], []).append((
+                _d(r["date"]), r["comp"], r["venue"] == "H", r["opponent"],
+                float(r["opp_lat"]), float(r["opp_lon"])))
+    for c in out:
+        out[c].sort(key=lambda t: t[0])
+    return out
 
 
 def _d(s):
@@ -98,11 +100,12 @@ def club_match_dates(fixtures):
             continue
         cal[f["home"]].append((f["date"], "PL", True, f["away"]))
         cal[f["away"]].append((f["date"], "PL", False, f["home"]))
-    for club, comp in EURO_CLUBS.items():
-        for ds in EURO_MATCHES[comp]:
-            # Home/away per leg is unknown until the draw; assume the neutral
-            # case (half the legs away) via the travel prior rather than guessing.
-            cal[club].append((_d(ds), comp, None, None))
+    euro = load_euro_fixtures()
+    for club, fixtures in euro.items():
+        if club not in cal:
+            continue
+        for dt, comp, is_home, opp, lat, lon in fixtures:
+            cal[club].append((dt, comp, is_home, opp))
     for c in cal:
         cal[c].sort(key=lambda t: t[0])
     return cal
@@ -124,6 +127,7 @@ def congestion_index(rest_days, m7, m14, euro_gap, travel_km):
 def build(fixtures=None, out=None):
     fixtures = fixtures or load_fixtures()
     cal = club_match_dates(fixtures)
+    euro_fx = load_euro_fixtures()
     rows = []
     for f in fixtures:
         if f["date"] is None:
@@ -142,9 +146,10 @@ def build(fixtures=None, out=None):
             euro_gap = (f["date"] - euros[-1][0]).days if euros else None
             comp = EURO_CLUBS.get(club)
             travel = domestic_travel(club, opp, is_home)
-            if euro_gap is not None and comp:
-                # Half of European legs are away; charge the prior at 50%.
-                travel += TRAVEL_PRIOR_KM[comp] * 0.5
+            # Real European travel: haversine to the actual opponent, away legs only.
+            for dt, ecomp, e_home, e_opp, elat, elon in euro_fx.get(club, []):
+                if 0 <= (f["date"] - dt).days <= 6 and not e_home and club in COORDS:
+                    travel += haversine(COORDS[club], (elat, elon)) * 2  # return trip
             nxt = [t for t in cal[club] if t[0] > f["date"]]
             rows.append({
                 "gw": f["gw"], "club": club, "side": side, "opponent": opp,
