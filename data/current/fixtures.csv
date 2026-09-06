@@ -28,7 +28,7 @@ id,gw,kickoff_utc,home,away,home_fdr,away_fdr,finished,home_score,away_score
 28,3,2026-09-05T14:00:00Z,NFO,TOT,3,3,False,0,0
 25,3,2026-09-05T16:30:00Z,HUL,AVL,3,2,False,0,0
 30,3,2026-09-06T13:00:00Z,EVE,MUN,4,3,False,2,2
-29,3,2026-09-06T15:30:00Z,ARS,CHE,4,5,False,1,1
+29,3,2026-09-06T15:30:00Z,ARS,CHE,4,5,False,2,1
 31,4,2026-09-12T14:00:00Z,AVL,NFO,3,4,False,,
 32,4,2026-09-12T14:00:00Z,BOU,BRE,3,3,False,,
 33,4,2026-09-12T14:00:00Z,CHE,HUL,2,4,False,,
