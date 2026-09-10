@@ -1,9 +1,9 @@
 {
-  "pulled_utc": "2026-09-10_0705Z",
+  "pulled_utc": "2026-09-10_1407Z",
   "reference_gw": 4,
   "reference_gw_deadline_utc": "2026-09-12T12:30:00Z",
   "total_players": 654,
   "total_fixtures": 380,
   "price_changes_since_last_pull": 0,
-  "total_managers": 10643769
+  "total_managers": 10649309
 }
