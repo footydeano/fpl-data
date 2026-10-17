@@ -59,7 +59,7 @@ id,gw,kickoff_utc,home,away,home_fdr,away_fdr,finished,home_score,away_score
 56,6,2026-10-11T13:00:00Z,HUL,EVE,3,2,True,2,2
 58,6,2026-10-11T15:30:00Z,LIV,MCI,4,4,True,0,3
 54,6,2026-10-12T19:00:00Z,COV,NEW,3,2,True,4,1
-64,7,2026-10-17T11:30:00Z,EVE,CHE,4,3,False,,
+64,7,2026-10-17T11:30:00Z,EVE,CHE,4,3,False,0,2
 62,7,2026-10-17T14:00:00Z,BRE,LIV,4,3,False,,
 65,7,2026-10-17T14:00:00Z,FUL,HUL,2,3,False,,
 67,7,2026-10-17T14:00:00Z,MCI,IPS,2,5,False,,
