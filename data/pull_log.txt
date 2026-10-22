@@ -838,3 +838,7 @@
 2026-10-21 21:22:25Z    raw snapshot -> /home/runner/work/fpl-data/fpl-data/data/raw/2026-10-21_2122Z
 2026-10-21 21:22:25Z    players=668 fixtures=380 price_changes=0 refGW=8 deadline=2026-10-23T17:30:00Z
 2026-10-21 21:22:25Z    done in 0.6s
+2026-10-22 00:28:18Z  === FPL pull 2026-10-22_0028Z ===
+2026-10-22 00:28:19Z    raw snapshot -> /home/runner/work/fpl-data/fpl-data/data/raw/2026-10-22_0028Z
+2026-10-22 00:28:19Z    players=668 fixtures=380 price_changes=2 refGW=8 deadline=2026-10-23T17:30:00Z
+2026-10-22 00:28:19Z    done in 0.5s
