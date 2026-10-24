@@ -70,7 +70,7 @@ id,gw,kickoff_utc,home,away,home_fdr,away_fdr,finished,home_score,away_score
 69,7,2026-10-18T15:30:00Z,NFO,ARS,4,3,True,0,1
 70,7,2026-10-19T19:00:00Z,TOT,COV,2,3,True,3,1
 77,8,2026-10-23T19:00:00Z,IPS,NFO,3,2,False,1,1
-72,8,2026-10-24T11:30:00Z,AVL,MCI,4,3,False,,
+72,8,2026-10-24T11:30:00Z,AVL,MCI,4,3,False,2,1
 71,8,2026-10-24T14:00:00Z,ARS,EVE,3,5,False,,
 74,8,2026-10-24T14:00:00Z,COV,FUL,2,2,False,,
 73,8,2026-10-24T16:30:00Z,CHE,TOT,2,4,False,,
